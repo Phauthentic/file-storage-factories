@@ -1,8 +1,9 @@
 <?php
-namespace Burzum\StorageFactory\Test\TestCase;
 
-use PHPUnit_Framework_TestCase;
-use Burzum\StorageFactory\StorageFactory;
+namespace Phauthentic\Storage\Test\TestCase;
+
+use PHPUnit\Framework\TestCase;
+use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
 
 /**
  * StorageTestCase
@@ -11,31 +12,28 @@ use Burzum\StorageFactory\StorageFactory;
  * @copyright 2012 - 2015 Florian Krämer
  * @license MIT
  */
-class StorageTestCase extends PHPUnit_Framework_TestCase {
+class StorageTestCase extends TestCase
+{
 
-/**
- * Setup test folders and files
- *
- * @return void
- */
-    public function setUp()
+    /**
+     * Setup test folders and files
+     *
+     * @return void
+     */
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->testPath = TMP;
 
-        StorageFactory::config('Local', array(
-            'adapterOptions' => [$this->testPath, true],
-            'adapterClass' => '\Gaufrette\Adapter\Local',
-            'class' => '\Gaufrette\Filesystem'
-        ));
-
-        StorageFactory::config('LocalFlysystem', array(
+        StorageAdapterFactory::config('Local', [
             'adapterOptions' => [$this->testPath],
-            'engine' => StorageFactory::FLYSYSTEM_ENGINE,
             'adapterClass' => 'Local',
-        ));
-    }
+        ]);
 
-    public function testSomething() {}
+        StorageAdapterFactory::config('Local2', [
+            'adapterOptions' => [$this->testPath],
+            'adapterClass' => 'Local',
+        ]);
+    }
 }

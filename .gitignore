@@ -1,3 +1,8 @@
-.idea
+/.idea
+/.phpunit.result.cache
 /tmp
-/vendor
+/logs
+/vendor/
+/bin
+coverage.xml
+phive*.phar
