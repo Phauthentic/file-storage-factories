@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Phauthentic\Infrastructure\Storage\Factories\Exception;
 
 use Phauthentic\Infrastructure\Storage\Exception\StorageException;

@@ -6,6 +6,8 @@ namespace Phauthentic\Infrastructure\Storage;
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
+use Phauthentic\Infrastructure\Storage\Factories\Exception\FactoryNotFoundException;
+use Phauthentic\Infrastructure\Storage\Factories\LocalFactory;
 
 /**
  * StorageFactory - Manages and instantiates storage engine adapters.
@@ -17,9 +19,24 @@ use League\Flysystem\Config;
 class StorageService implements StorageServiceInterface
 {
     /**
+     * @var array
+     */
+    protected array $adapterConfig = [
+        'local' => [
+            'class' => LocalFactory::class,
+            'options' => []
+        ]
+    ];
+
+    /**
+     * @var \Phauthentic\Infrastructure\Storage\AdapterCollection
+     */
+    protected AdapterCollection $adapterCollection;
+
+    /**
      * @var \Phauthentic\Infrastructure\Storage\StorageAdapterFactoryInterface
      */
-    protected $adapterFactory;
+    protected StorageAdapterFactoryInterface $adapterFactory;
 
     /**
      * Constructor
@@ -30,9 +47,8 @@ class StorageService implements StorageServiceInterface
         StorageAdapterFactoryInterface $adapterFactory
     ) {
         $this->adapterFactory = $adapterFactory;
+        $this->adapterCollection = new AdapterCollection();
     }
-
-    protected $adapters = [];
 
     /**
      * Adapter Factory
@@ -45,44 +61,96 @@ class StorageService implements StorageServiceInterface
     }
 
     /**
-     *
+     * @return \Phauthentic\Infrastructure\Storage\AdapterCollection
      */
-    public function adapter($name): AdapterInterface
+    public function adapters(): AdapterCollection
     {
-        if (!isset($this->adapters[$name])) {
+        return $this->adapterCollection;
+    }
 
+    /**
+     * Gets an adapter instance, lazy loads it as needed.
+     *
+     * @param string $name
+     * @return \League\Flysystem\AdapterInterface
+     */
+    public function adapter(string $name): AdapterInterface
+    {
+        if ($this->adapterCollection->has($name)) {
+            return $this->adapterCollection->get($name);
         }
 
-        return $this->adapters[$name];
+        if (!isset($this->adapterConfig[$name])) {
+            throw FactoryNotFoundException::withName($name);
+        }
+
+        $options = $this->adapterConfig[$name];
+        $adapter = $this->loadAdapter($name, $options['class'], $options['options']);
+        $this->adapterCollection->add($name, $adapter);
+
+        return $adapter;
     }
 
     /**
+     * Loads an adapter instance using the factory
      *
+     * @param string $name Name
+     * @param string $adapter Adapter
+     * @param array $options
+     * @return \League\Flysystem\AdapterInterface
      */
-    public function loadAdapter(string $name, array $options): AdapterInterface
+    protected function loadAdapter(string $name, string $adapter, array $options): AdapterInterface
     {
-        $this->adapters[$name] = $this->adapterFactory->fromArray($options);
+        $this->adapters[$name] = $this->adapterFactory->buildStorageAdapter(
+            $adapter,
+            $options
+        );
 
         return $this->adapters[$name];
     }
 
     /**
-     * Loads adapters
+     * @param string $name
+     * @param string $class
+     * @param array $options
+     */
+    public function addAdapterConfig(string $name, string $class, array $options)
+    {
+        $this->adapterConfig[$name] = [
+            'class' => $class,
+            'options' => $options
+        ];
+    }
+
+    /**
+     * Loads adapter configuration to lazy load them later
      *
      * @param array
      * @return void
      */
-    public function loadAdaptersFromArray(array $config): void
+    public function loadAdapterConfigFromArray(array $config): void
     {
         foreach ($config as $name => $options) {
-            $this->loadAdapter($name, $options);
+            if (!isset($options['class'])) {
+                throw new \RuntimeException('Adapter class or name is missing');
+            }
+
+            if (!isset($options['options']) || !is_array($options['options'])) {
+                throw new \RuntimeException('Adapter options must be an array');
+            }
+
+            $this->adapterConfig[$name] = $options;
         }
     }
 
     /**
-     *
+     * @param string $adapter Adapter
+     * @param string $path Path
+     * @param resource $resource
+     * @param \League\Flysystem\Config $config
+     * @return bool
      */
-    public function storeResource(string $adapter, string $path, $resource, $config)
+    public function storeResource(string $adapter, string $path, $resource, Config $config)
     {
         $this->adapter($adapter)->writeStream($path, $resource, $config);
     }
@@ -96,10 +164,22 @@ class StorageService implements StorageServiceInterface
     }
 
     /**
-     *
+     * @param string $adapter Adapter
+     * @param string $path Path
+     * @return bool
      */
-    public function removeFile($adapter, $file)
+    public function fileExists(string $adapter, string $path): bool
     {
-        return $this->adapter($adapter)->delete($file);
+        return $this->adapter($name)->has($path);
+    }
+
+    /**
+     * @param string $adapter Name
+     * @param string $path File to delete
+     * @return bool
+     */
+    public function removeFile(string $adapter, string $path): bool
+    {
+        return $this->adapter($adapter)->delete($path);
     }
 }
