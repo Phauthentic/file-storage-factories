@@ -144,22 +144,39 @@ class StorageService implements StorageServiceInterface
     }
 
     /**
+     * @param \League\Flysystem\Config|null $config Config
+     * @return \League\Flysystem\Config
+     */
+    protected function makeConfigIfNeeded(?Config $config)
+    {
+        if ($config === null) {
+            $config = new Config();
+        }
+
+        return $config;
+    }
+
+    /**
      * @param string $adapter Adapter
      * @param string $path Path
      * @param resource $resource
      * @param \League\Flysystem\Config $config
      * @return bool
      */
-    public function storeResource(string $adapter, string $path, $resource, Config $config)
+    public function storeResource(string $adapter, string $path, $resource, ?Config $config)
     {
+        $config = $this->makeConfigIfNeeded($config);
+
         $this->adapter($adapter)->writeStream($path, $resource, $config);
     }
 
     /**
      *
      */
-    public function storeFile(string $adapter, string $path, string $file, Config $config)
+    public function storeFile(string $adapter, string $path, string $file, ?Config $config)
     {
+        $config = $this->makeConfigIfNeeded($config);
+
         $this->adapter($adapter)->write($path, file_get_contents($file), $config);
     }
 
