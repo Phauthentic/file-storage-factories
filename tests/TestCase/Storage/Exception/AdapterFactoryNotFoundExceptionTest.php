@@ -14,31 +14,23 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Storage\Test\TestCase;
+namespace Phauthentic\Storage\Test\TestCase\Storage\Factories;
 
-use PHPUnit\Framework\TestCase;
-use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
+use Phauthentic\Infrastructure\Storage\Exception\AdapterFactoryNotFoundException;
+use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
 
 /**
- * StorageTestCase
+ * AdapterFactoryNotFoundExceptionTest
  */
-class StorageTestCase extends TestCase
+class AdapterFactoryNotFoundExceptionTest extends TestCase
 {
     /**
-     * @var string
-     */
-    protected string $tmp;
-
-    /**
-     * Setup test folders and files
-     *
      * @return void
      */
-    public function setUp(): void
+    public function testException(): void
     {
-        parent::setUp();
+        $exception = AdapterFactoryNotFoundException::fromName('FooFactory');
 
-        $this->testPath = TMP;
-        $this->tmp = TMP;
+        $this->assertEquals('Adapter factory `FooFactory` was not found', $exception->getMessage());
     }
 }

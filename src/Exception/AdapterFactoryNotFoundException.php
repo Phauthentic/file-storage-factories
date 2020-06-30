@@ -14,29 +14,21 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Infrastructure\Storage\Factories;
-
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Adapter\Ftp;
+namespace Phauthentic\Infrastructure\Storage\Exception;
 
 /**
- * FtpFactory
+ * AdapterNotSupportedException
  */
-class FtpFactory extends AbstractFactory
+class AdapterFactoryNotFoundException extends StorageException
 {
-    protected string $alias = 'sftp';
-    protected ?string $package = 'league/flysystem';
-    protected string $className = Ftp::class;
-
     /**
-     * @inheritDoc
+     * @param string $name Name
      */
-    public function build(array $config): AdapterInterface
+    public static function fromName(string $name)
     {
-        if (!defined('FTP_BINARY')) {
-            define('FTP_BINARY', 'ftp.exe');
-        }
-
-        return new Ftp($config);
+        return new static(sprintf(
+            'Adapter factory `%s` was not found',
+            $name
+        ));
     }
 }

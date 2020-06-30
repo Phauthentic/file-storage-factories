@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * @author    Florian Krämer
+ * @link      https://github.com/Phauthentic
+ * @license   https://opensource.org/licenses/MIT MIT License
+ */
+
 declare(strict_types=1);
 
 namespace Phauthentic\Infrastructure\Storage;
@@ -13,7 +25,7 @@ use Phauthentic\Infrastructure\Storage\Factories\LocalFactory;
  * StorageFactory - Manages and instantiates storage engine adapters.
  *
  * @author Florian Krämer
- * @copyright 2012 - 2015 Florian Krämer
+ * @copyright 2012 - 2020 Florian Krämer
  * @license MIT
  */
 class StorageService implements StorageServiceInterface
@@ -171,7 +183,10 @@ class StorageService implements StorageServiceInterface
     }
 
     /**
-     *
+     * @param string $adapter Adapter
+     * @param string $path Path
+     * @param string $file File
+     * @param \League\Flysystem\Config|null $config Config
      */
     public function storeFile(string $adapter, string $path, string $file, ?Config $config)
     {

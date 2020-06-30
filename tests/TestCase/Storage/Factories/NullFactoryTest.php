@@ -14,29 +14,24 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Infrastructure\Storage\Factories;
+namespace Phauthentic\Storage\Test\TestCase\Storage\Factories;
 
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Adapter\Ftp;
+use League\Flysystem\Adapter\NullAdapter;
+use Phauthentic\Infrastructure\Storage\Factories\NullFactory;
+use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
 
 /**
- * FtpFactory
+ * NullFactoryTest
  */
-class FtpFactory extends AbstractFactory
+class NullFactoryTest extends TestCase
 {
-    protected string $alias = 'sftp';
-    protected ?string $package = 'league/flysystem';
-    protected string $className = Ftp::class;
-
     /**
-     * @inheritDoc
+     * @return void
      */
-    public function build(array $config): AdapterInterface
+    public function testFactory(): void
     {
-        if (!defined('FTP_BINARY')) {
-            define('FTP_BINARY', 'ftp.exe');
-        }
-
-        return new Ftp($config);
+        $factory = new NullFactory();
+        $adapter = $factory->build([]);
+        $this->assertInstanceOf(NullAdapter::class, $adapter);
     }
 }

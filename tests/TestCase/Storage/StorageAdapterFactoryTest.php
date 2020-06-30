@@ -1,73 +1,59 @@
 <?php
 
 /**
- * StorageFactoryTest
+ * Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
  *
- * @author Florian Krämer
- * @copyright 2012 - 2015 Florian Krämer
- * @license MIT
+ * @copyright Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * @author    Florian Krämer
+ * @link      https://github.com/Phauthentic
+ * @license   https://opensource.org/licenses/MIT MIT License
  */
+
+declare(strict_types=1);
 
 namespace Phauthentic\Storage\Test\TestCase\Storage;
 
-use Phauthentic\Storage\Test\TestCase\StorageTestCase;
+use League\Flysystem\Adapter\Local;
+use Phauthentic\Infrastructure\Storage\Exception\AdapterFactoryNotFoundException;
 use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
+use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
+use RuntimeException;
 
 /**
  * StorageAdapterFactoryTest
  */
-class StorageAdapterFactoryTest extends StorageTestCase
+class StorageAdapterFactoryTest extends TestCase
 {
     /**
-     * testAdapter
+     * testBuildStorageAdapter
      *
      * @return void
      */
-    public function testAdapter()
+    public function testBuildStorageAdapter(): void
     {
-        $result = StorageAdapterFactory::get('Local');
-        $this->assertEquals(get_class($result), 'League\Flysystem\Adapter\Local');
+        $factory = new StorageAdapterFactory();
 
-        try {
-            StorageAdapterFactory::get('Does Not Exist');
-            $this->fail('Exception not thrown!');
-        } catch (\RuntimeException $e) {
-        }
-    }
-
-    /**
-     * testConfig
-     *
-     * @return void
-     */
-    public function testConfig()
-    {
-        $result = StorageAdapterFactory::config('Local', [
-            'adapterOptions' => [$this->testPath],
-            'adapterClass' => 'Local',
+        $result = $factory->buildStorageAdapter('Local', [
+            $this->testPath
         ]);
 
-        $expected = [
-            'adapterOptions' => [$this->testPath],
-            'adapterClass' => 'Local',
-        ];
-
-        $this->assertEquals($result, $expected);
-        $this->assertFalse(StorageAdapterFactory::config('Does not exist'));
+        $this->assertInstanceOf(Local::class, $result);
     }
 
     /**
-     * testFlush
+     * testAdapterFactoryNotFoundExceptionTrigger
      *
      * @return void
      */
-    public function testFlush()
+    public function testAdapterFactoryNotFoundExceptionTrigger(): void
     {
-        $config = StorageAdapterFactory::config('Local');
-        $result = StorageAdapterFactory::flush('Local');
-        $this->assertTrue($result);
-        $result = StorageAdapterFactory::flush('Does not exist');
-        $this->assertFalse($result);
-        StorageAdapterFactory::config('Local', $config);
+        $factory = new StorageAdapterFactory();
+
+        $this->expectException(AdapterFactoryNotFoundException::class);
+        $this->expectExceptionMessage('Adapter factory `\Phauthentic\Infrastructure\Storage\Factories\DoesNotExistFactory` was not found');
+        $result = $factory->buildStorageAdapter('DoesNotExist', []);
     }
 }

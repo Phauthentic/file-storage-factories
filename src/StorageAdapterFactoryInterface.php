@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * @author    Florian Krämer
+ * @link      https://github.com/Phauthentic
+ * @license   https://opensource.org/licenses/MIT MIT License
+ */
+
 declare(strict_types=1);
 
 namespace Phauthentic\Infrastructure\Storage;
@@ -8,10 +20,6 @@ use League\Flysystem\AdapterInterface;
 
 /**
  * StorageFactory - Manages and instantiates storage engine adapters.
- *
- * @author Florian Krämer
- * @copyright 2012 - 2015 Florian Krämer
- * @license MIT
  */
 interface StorageAdapterFactoryInterface
 {

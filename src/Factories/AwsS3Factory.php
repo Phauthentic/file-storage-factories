@@ -17,24 +17,40 @@ declare(strict_types=1);
 namespace Phauthentic\Infrastructure\Storage\Factories;
 
 use Aws\S3\S3Client;
-use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 
 /**
- * NullFactory
+ * AwsS3Factory
  */
-class NullFactory extends AbstractFactory
+class AwsS3Factory extends AbstractFactory
 {
-    protected string $alias = 'null';
-    protected ?string $package = 'league/flysystem';
+    protected string $alias = 's3';
+    protected ?string $package = 'league/flysystem-aws-s3-v3';
     protected string $className = AwsS3Adapter::class;
+
+    protected array $defaults = [
+        'bucket' => null,
+        'prefix' => '',
+        'client' => [
+            'region' => 'eu',
+            'version' => '2006-03-01'
+        ]
+    ];
 
     /**
      * @inheritDoc
      */
     public function build(array $config): AdapterInterface
     {
-        return new NullAdapter();
+        $this->availabilityCheck();
+        $config = array_merge($this->defaults, $config);
+
+        return new AwsS3Adapter(S3Client::factory(
+            $config['client']),
+            $config['bucket'],
+            $config['prefix'],
+            $config
+        );
     }
 }

@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * @author    Florian Krämer
+ * @link      https://github.com/Phauthentic
+ * @license   https://opensource.org/licenses/MIT MIT License
+ */
+
+declare(strict_types=1);
+
 namespace Phauthentic\Infrastructure\Storage\Factories;
 
 use League\Flysystem\AdapterInterface;
@@ -10,10 +25,9 @@ use Sabre\DAV\Client;
  */
 class WebDAVFactory extends AbstractFactory
 {
-    protected $alias = 'webdav';
-    protected $package = 'league/flysystem-webdav';
-    protected $className = WebDAVAdapter::class;
-
+    protected string $alias = 'webdav';
+    protected ?string $package = 'league/flysystem-webdav';
+    protected string $className = WebDAVAdapter::class;
     public function build(array $config): AdapterInterface
     {
         return new WebDAVAdapter(new Client($config));

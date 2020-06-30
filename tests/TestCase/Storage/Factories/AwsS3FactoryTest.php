@@ -14,31 +14,25 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Storage\Test\TestCase;
+namespace Phauthentic\Storage\Test\TestCase\Storage\Factories;
 
-use PHPUnit\Framework\TestCase;
-use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
+use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use Phauthentic\Infrastructure\Storage\Factories\AwsS3Factory;
+use Phauthentic\Infrastructure\Storage\Factories\S3v3Factory;
+use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
 
 /**
- * StorageTestCase
+ * AwsS3FactoryTest
  */
-class StorageTestCase extends TestCase
+class AwsS3FactoryTest extends TestCase
 {
     /**
-     * @var string
-     */
-    protected string $tmp;
-
-    /**
-     * Setup test folders and files
-     *
      * @return void
      */
-    public function setUp(): void
+    public function testFactory(): void
     {
-        parent::setUp();
-
-        $this->testPath = TMP;
-        $this->tmp = TMP;
+        $factory = new AwsS3Factory();
+        $adapter = $factory->build([]);
+        $this->assertInstanceOf(AwsS3Adapter::class, $adapter);
     }
 }

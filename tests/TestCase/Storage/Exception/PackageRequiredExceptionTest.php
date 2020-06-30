@@ -14,31 +14,23 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Storage\Test\TestCase;
+namespace Phauthentic\Storage\Test\TestCase\Storage\Factories;
 
-use PHPUnit\Framework\TestCase;
-use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
+use Phauthentic\Infrastructure\Storage\Exception\PackageRequiredException;
+use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
 
 /**
- * StorageTestCase
+ * PackageRequiredExceptionTest
  */
-class StorageTestCase extends TestCase
+class PackageRequiredExceptionTest extends TestCase
 {
     /**
-     * @var string
-     */
-    protected string $tmp;
-
-    /**
-     * Setup test folders and files
-     *
      * @return void
      */
-    public function setUp(): void
+    public function testException(): void
     {
-        parent::setUp();
+        $exception = PackageRequiredException::fromAdapterAndPackageNames('Foo', 'FooPackage');
 
-        $this->testPath = TMP;
-        $this->tmp = TMP;
+        $this->assertEquals('Adapter `Foo` requires package `FooPackage`', $exception->getMessage());
     }
 }

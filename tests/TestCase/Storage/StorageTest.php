@@ -14,19 +14,18 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Infrastructure\Storage\Exception;
+namespace Phauthentic\Storage\Test\TestCase\Storage;
+
+use League\Flysystem\Adapter\Local;
+use Phauthentic\Infrastructure\Storage\Exception\AdapterFactoryNotFoundException;
+use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
+use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
+use RuntimeException;
 
 /**
- * PackageRequiredException
+ * StorageTest
  */
-class PackageRequiredException extends StorageException
+class StorageTest extends TestCase
 {
-    public static function fromAdapterAndPackageNames(string $adapter, string $package)
-    {
-        return new self(sprintf(
-            'Adapter `%s` requires package `%s`',
-            $adapter,
-            $package
-        ));
-    }
+
 }

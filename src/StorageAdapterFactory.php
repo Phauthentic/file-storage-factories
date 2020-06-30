@@ -1,10 +1,23 @@
 <?php
 
+/**
+ * Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * @author    Florian Krämer
+ * @link      https://github.com/Phauthentic
+ * @license   https://opensource.org/licenses/MIT MIT License
+ */
+
 declare(strict_types=1);
 
 namespace Phauthentic\Infrastructure\Storage;
 
 use League\Flysystem\AdapterInterface;
+use Phauthentic\Infrastructure\Storage\Exception\AdapterFactoryNotFoundException;
 use Phauthentic\Infrastructure\Storage\Exception\AdapterNotSupportedException;
 use Phauthentic\Infrastructure\Storage\Exception\StorageException;
 use RuntimeException;
@@ -12,10 +25,6 @@ use InvalidArgumentException;
 
 /**
  * StorageFactory - Manages and instantiates storage engine adapters.
- *
- * @author Florian Krämer
- * @copyright 2012 - 2015 Florian Krämer
- * @license MIT
  */
 class StorageAdapterFactory implements StorageAdapterFactoryInterface
 {
@@ -34,7 +43,7 @@ class StorageAdapterFactory implements StorageAdapterFactoryInterface
         }
 
         if (!class_exists($adapterClass)) {
-            throw AdapterNotSupportedException::fromName($adapterClass);
+            throw AdapterFactoryNotFoundException::fromName($adapterClass);
         }
 
         return (new $adapterClass())->build($options);
