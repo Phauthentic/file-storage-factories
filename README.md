@@ -4,40 +4,13 @@
 [![Build Status](https://img.shields.io/travis/burzum/storage-factory/3.0.svg?style=flat-square)](https://travis-ci.org/burzum/storage-factory)
 [![Coverage Status](https://img.shields.io/coveralls/burzum/storage-factory/3.0.svg?style=flat-square)](https://coveralls.io/r/burzum/storage-factory)
 
-## How to use it
+## Documentation
 
-Configure the adapter instances:
-
-```php
-$basePath = '/your/base/path';
-StorageFactory::config('LocalFlysystem', array(
-	'adapterOptions' => [$basePath],
-	'engine' => StorageFactory::FLYSYSTEM_ENGINE,
-	'adapterClass' => 'Local',
-));
-```
-
-And get instances of the adapters as you need them.
-
-```php
-$gaufretteLocalFSAdapter = StorageFactory::get('LocalFlysystem');
-```
-
-Flush or renews adapter objects:
-
-```php
-// Flushes a specific adapter based on the config name
-StorageFactory::flush('LocalGaufrette');
-// Flushes ALL adapters
-StorageFactory::flush();
-
-// Renews an adapter, set second arg to true
-StorageFactory::get('LocalGaufrette', true);
-```
+Please see the [/docs](/docs/index.md) folder in this repository for the documentation.
 
 ## Support
 
-For bugs and feature requests, please use the [issues](https://github.com/phauthentic/storage/issues) section of this repository.
+For bugs and feature requests, please use the [issues](https://github.com/phauthentic/file-storage-factories/issues) section of this repository.
 
 ## License
 

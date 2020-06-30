@@ -17,13 +17,9 @@ declare(strict_types=1);
 namespace Phauthentic\Storage\Test\TestCase\Storage;
 
 use ArrayIterator;
-use League\Flysystem\Adapter\Local;
 use League\Flysystem\Adapter\NullAdapter;
 use Phauthentic\Infrastructure\Storage\AdapterCollection;
-use Phauthentic\Infrastructure\Storage\Exception\AdapterFactoryNotFoundException;
-use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
 use Phauthentic\Storage\Test\TestCase\StorageTestCase;
-use RuntimeException;
 
 /**
  * AdapterCollectionTest

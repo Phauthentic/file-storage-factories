@@ -26,7 +26,8 @@ interface StorageAdapterFactoryInterface
     /**
      * Instantiates Flystem adapters.
      *
-     * @param array $adapter
+     * @param string $adapterClass Adapter alias or classname
+     * @param array $options Options array
      * @return \League\Flysystem\AdapterInterface
      */
     public function buildStorageAdapter(

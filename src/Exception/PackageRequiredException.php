@@ -21,7 +21,12 @@ namespace Phauthentic\Infrastructure\Storage\Exception;
  */
 class PackageRequiredException extends StorageException
 {
-    public static function fromAdapterAndPackageNames(string $adapter, string $package)
+    /**
+     * @param string $adapter Adapter
+     * @param string $package Package
+     * @return self
+     */
+    public static function fromAdapterAndPackageNames(string $adapter, string $package): self
     {
         return new self(sprintf(
             'Adapter `%s` requires package `%s`',

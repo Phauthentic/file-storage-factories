@@ -17,15 +17,37 @@ declare(strict_types=1);
 namespace Phauthentic\Storage\Test\TestCase\Storage;
 
 use League\Flysystem\Adapter\Local;
-use Phauthentic\Infrastructure\Storage\Exception\AdapterFactoryNotFoundException;
 use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
+use Phauthentic\Infrastructure\Storage\StorageService;
 use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
-use RuntimeException;
 
 /**
  * StorageTest
  */
-class StorageTest extends TestCase
+class StorageServiceTest extends TestCase
 {
+    /**
+     * @return void
+     */
+    public function testStorage(): void
+    {
+        $service = new StorageService(
+            new StorageAdapterFactory()
+        );
 
+        $this->assertFalse($service->adapters()->has('local'));
+
+        $service->loadAdapterConfigFromArray([
+            'local' => [
+                'class' => 'Local',
+                'options' => [
+                    $this->tmp
+                ]
+            ]
+        ]);
+
+        $adapter = $service->adapter('local');
+        $this->assertTrue($service->adapters()->has('local'));
+        $this->assertInstanceOf(Local::class, $adapter);
+    }
 }

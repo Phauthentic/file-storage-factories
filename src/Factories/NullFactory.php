@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace Phauthentic\Infrastructure\Storage\Factories;
 
-use Aws\S3\S3Client;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
@@ -27,7 +26,6 @@ use League\Flysystem\AwsS3v3\AwsS3Adapter;
 class NullFactory extends AbstractFactory
 {
     protected string $alias = 'null';
-    protected ?string $package = 'league/flysystem';
     protected string $className = AwsS3Adapter::class;
 
     /**

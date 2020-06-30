@@ -18,7 +18,6 @@ namespace Phauthentic\Infrastructure\Storage\Factories;
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter;
-use League\Flysystem\Filesystem;
 use MicrosoftAzure\Storage\Common\ServicesBuilder;
 
 /**
@@ -47,11 +46,9 @@ class AzureFactory extends AbstractFactory
 
         $blobRestProxy = ServicesBuilder::getInstance()->createBlobService($endpoint);
 
-        return new Filesystem(
-            new AzureBlobStorageAdapter(
-                $blobRestProxy,
-                $config['container']
-            )
+        return new AzureBlobStorageAdapter(
+            $blobRestProxy,
+            $config['container']
         );
     }
 }

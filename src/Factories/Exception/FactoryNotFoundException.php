@@ -16,16 +16,18 @@ declare(strict_types=1);
 
 namespace Phauthentic\Infrastructure\Storage\Factories\Exception;
 
-use Phauthentic\Infrastructure\Storage\Exception\StorageException;
-
 /**
  * FactoryNotFoundException
  */
-class FactoryNotFoundException extends StorageException
+class FactoryNotFoundException extends FactoryException
 {
-    public static function withName(string $name)
+    /**
+     * @param string $name Name
+     * @return self
+     */
+    public static function withName(string $name): self
     {
-        return new static(sprintf(
+        return new self(sprintf(
             'No factory found for %s',
             $name
         ));

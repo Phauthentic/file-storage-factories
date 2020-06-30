@@ -18,8 +18,6 @@ namespace Phauthentic\Infrastructure\Storage;
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
-use Phauthentic\Infrastructure\Storage\Factories\Exception\FactoryNotFoundException;
-use Phauthentic\Infrastructure\Storage\Factories\LocalFactory;
 
 /**
  * StorageServiceInterface
@@ -34,9 +32,11 @@ interface StorageServiceInterface
     public function adapterFactory(): StorageAdapterFactoryInterface;
 
     /**
-     * @return \Phauthentic\Infrastructure\Storage\AdapterCollection
+     * Get the adapter collection
+     *
+     * @return \Phauthentic\Infrastructure\Storage\AdapterCollectionInterface
      */
-    public function adapters(): AdapterCollection;
+    public function adapters(): AdapterCollectionInterface;
 
     /**
      * Gets an adapter instance, lazy loads it as needed.
@@ -47,6 +47,8 @@ interface StorageServiceInterface
     public function adapter(string $name): AdapterInterface;
 
     /**
+     * Adds an adapter config
+     *
      * @param string $name
      * @param string $class
      * @param array $options
@@ -54,29 +56,29 @@ interface StorageServiceInterface
     public function addAdapterConfig(string $name, string $class, array $options);
 
     /**
-     * Loads adapter configuration to lazy load them later
+     * Stores a resource in a storage backend
      *
-     * @param array
-     * @return void
-     */
-    public function loadAdapterConfigFromArray(array $config): void;
-
-    /**
-     * @param string $adapter Adapter
-     * @param string $path Path
-     * @param resource $resource
+     * @param string $adapter Adapter config name
+     * @param string $path Path where the file is stored
+     * @param resource $resource Resource to store
      * @param \League\Flysystem\Config $config
-     * @return bool
+     * @return array
      */
-    public function storeResource(string $adapter, string $path, $resource, ?Config $config);
-
+    public function storeResource(string $adapter, string $path, $resource, ?Config $config): array;
 
     /**
+     * Stores a file in a storage backend
      *
+     * @param string $adapter Adapter config name
+     * @param string $path Path where the file is stored
+     * @param string $file File to store
+     * @return array
      */
-    public function storeFile(string $adapter, string $path, string $file, ?Config $config);
+    public function storeFile(string $adapter, string $path, string $file, ?Config $config): array;
 
     /**
+     * Checks if a file exists in a store
+     *
      * @param string $adapter Adapter
      * @param string $path Path
      * @return bool
@@ -84,6 +86,8 @@ interface StorageServiceInterface
     public function fileExists(string $adapter, string $path): bool;
 
     /**
+     * Removes a file from a storage backend
+     *
      * @param string $adapter Name
      * @param string $path File to delete
      * @return bool

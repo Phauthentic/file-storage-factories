@@ -18,13 +18,12 @@ namespace Phauthentic\Infrastructure\Storage;
 
 use League\Flysystem\AdapterInterface;
 use ArrayIterator;
-use IteratorAggregate;
 use RuntimeException;
 
 /**
  * Adapter Collection
  */
-class AdapterCollection implements IteratorAggregate
+class AdapterCollection implements AdapterCollectionInterface
 {
     /**
      * @var array
@@ -39,7 +38,7 @@ class AdapterCollection implements IteratorAggregate
     {
         if ($this->has($name)) {
             throw new RuntimeException(sprintf(
-                'An adapter with the name %s already exists in the collection',
+                'An adapter with the name `%s` already exists in the collection',
                 $name
             ));
         }
@@ -51,7 +50,7 @@ class AdapterCollection implements IteratorAggregate
      * @param string $name Name
      * @return void
      */
-    public function remove(string $name)
+    public function remove(string $name): void
     {
         unset($this->adapters[$name]);
     }
@@ -66,11 +65,16 @@ class AdapterCollection implements IteratorAggregate
     }
 
     /**
-     * @param string $name
+     * @param string $name Name
+     * @return \League\Flysystem\AdapterInterface
      */
-    public function get(string $name)
+    public function get(string $name): AdapterInterface
     {
         if (!$this->has($name)) {
+            throw new RuntimeException(sprintf(
+                'A factory registered with the name `%s` is not part of the collection.',
+                $name
+            ));
         }
 
         return $this->adapters[$name];
@@ -84,6 +88,19 @@ class AdapterCollection implements IteratorAggregate
     public function empty(): void
     {
         unset($this->adapters);
+    }
+
+    /**
+     * @return array
+     */
+    public function getNameToClassmap(): array
+    {
+        $map = [];
+        foreach ($this->adapters as $name => $object) {
+            $map[$name] = get_class($object);
+        }
+
+        return $map;
     }
 
     /**

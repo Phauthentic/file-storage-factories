@@ -17,23 +17,25 @@ declare(strict_types=1);
 namespace Phauthentic\Infrastructure\Storage\Factories;
 
 use League\Flysystem\AdapterInterface;
-use League\Flysystem\WebDAV\WebDAVAdapter;
-use Sabre\DAV\Client;
+use Spatie\Dropbox\Client;
+use Spatie\FlysystemDropbox\DropboxAdapter;
 
 /**
- * WebdavFactory
+ * DropboxFactory
  */
-class WebDAVFactory extends AbstractFactory
+class DropboxFactory extends AbstractFactory
 {
-    protected string $alias = 'webdav';
-    protected ?string $package = 'league/flysystem-webdav';
-    protected string $className = WebDAVAdapter::class;
+    protected string $alias = 'null';
+    protected ?string $package = 'spatie/flysystem-dropbox';
+    protected string $className = DropboxAdapter::class;
 
     /**
      * @inheritDoc
      */
     public function build(array $config): AdapterInterface
     {
-        return new WebDAVAdapter(new Client($config));
+        $client = new Client($config['authToken']);
+
+        return new DropboxAdapter($client);
     }
 }

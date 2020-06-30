@@ -24,7 +24,7 @@ use League\Flysystem\Adapter\Ftp;
  */
 class FtpFactory extends AbstractFactory
 {
-    protected string $alias = 'sftp';
+    protected string $alias = 'ftp';
     protected ?string $package = 'league/flysystem';
     protected string $className = Ftp::class;
 
