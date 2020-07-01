@@ -14,26 +14,24 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Infrastructure\Storage\Factories;
+namespace Phauthentic\Storage\Test\TestCase\Storage\Factories;
 
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Config;
 use League\Flysystem\Memory\MemoryAdapter;
+use Phauthentic\Infrastructure\Storage\Factories\MemoryFactory;
+use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
 
 /**
- * Memory
+ * MemoryFactoryTest
  */
-class MemoryFactory extends AbstractFactory
+class MemoryFactoryTest extends TestCase
 {
-    protected string $alias = 'memory';
-    protected ?string $package = 'league/flysystem-memory';
-    protected string $className = MemoryAdapter::class;
-
     /**
-     * @inheritDoc
+     * @return void
      */
-    public function build(array $config): AdapterInterface
+    public function testFactory(): void
     {
-        return new MemoryAdapter(new Config($config));
+        $factory = new MemoryFactory();
+        $result = $factory->build([]);
+        $this->assertInstanceOf(MemoryAdapter::class, $result);
     }
 }

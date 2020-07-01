@@ -1,30 +1,54 @@
 <?php
+
+/**
+ * Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * @author    Florian Krämer
+ * @link      https://github.com/Phauthentic
+ * @license   https://opensource.org/licenses/MIT MIT License
+ */
+
+declare(strict_types=1);
+
 namespace Phauthentic\Infrastructure\Storage\Factories;
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter;
+use MicrosoftAzure\Storage\Common\ServicesBuilder;
 
 /**
- * S3Factory
+ * AzureFactory
  */
-class S3Factory extends AbstractFactory
+class AzureFactory extends AbstractFactory
 {
-    protected $alias = 'azure';
-    protected $package = 'league/flysystem-azure-blob-storage';
-    protected $className = AzureBlobStorageAdapter::class;
+    protected string $alias = 'azure';
+    protected ?string $package = 'league/flysystem-azure-blob-storage';
+    protected string $className = AzureBlobStorageAdapter::class;
 
+    protected $endpoint = 'DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s';
+
+    /**
+     * @inheritDoc
+     */
     public function build($config): AdapterInterface
     {
         $this->availabilityCheck();
 
         $endpoint = sprintf(
-            'DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s',
-            $config['account-name'] ?? '',
-            $config['api-key'] ?? ''
+            $this->endpoint,
+            base64_encode($config['accountName'] ?? ''),
+            base64_encode($config['apiKey'] ?? '')
         );
 
-        $blobRestProxy = ServicesBuilder::getInstance()->createBlobService($endpoint);
+        $client = ServicesBuilder::getInstance()->createBlobService($endpoint);
 
-        return new AzureBlobStorageAdapter($blobRestProxy, 'my-container');
+        return new AzureBlobStorageAdapter(
+            ServicesBuilder::getInstance()->createBlobService($endpoint),
+            $config['container']
+        );
     }
 }

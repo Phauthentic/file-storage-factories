@@ -17,31 +17,25 @@ declare(strict_types=1);
 namespace Phauthentic\Infrastructure\Storage\Factories;
 
 use League\Flysystem\AdapterInterface;
-use League\Flysystem\WebDAV\WebDAVAdapter;
-use League\Flysystem\ZipArchive\ZipArchiveAdapter;
+use Spatie\Dropbox\Client;
+use Spatie\FlysystemDropbox\DropboxAdapter;
 
 /**
- * ZipArchiveFactory
+ * DropboxFactory
  */
-class ZipArchiveFactory extends AbstractFactory
+class DropboxFactory extends AbstractFactory
 {
-    protected string $alias = 'zip';
-    protected ?string $package = 'league/flysystem-ziparchive';
-    protected string $className = ZipArchiveAdapter::class;
+    protected string $alias = 'null';
+    protected ?string $package = 'spatie/flysystem-dropbox';
+    protected string $className = DropboxAdapter::class;
 
     /**
      * @inheritDoc
      */
     public function build(array $config): AdapterInterface
     {
-        $defaults = [
-            'location' => null,
-            'archive' => null,
-            'prefix' => null,
-        ];
+        $client = new Client($config['authToken']);
 
-        $config = array_merge($defaults, $config);
-
-        return new ZipArchiveAdapter($config['location'], $config['archive'], $config['prefix']);
+        return new DropboxAdapter($client);
     }
 }

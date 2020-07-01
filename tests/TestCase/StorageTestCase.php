@@ -1,19 +1,42 @@
 <?php
 
+/**
+ * Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright (c) Florian Krämer (https://florian-kraemer.net)
+ * @author    Florian Krämer
+ * @link      https://github.com/Phauthentic
+ * @license   https://opensource.org/licenses/MIT MIT License
+ */
+
+declare(strict_types=1);
+
 namespace Phauthentic\Storage\Test\TestCase;
 
 use PHPUnit\Framework\TestCase;
-use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
 
 /**
  * StorageTestCase
- *
- * @author Florian Krämer
- * @copyright 2012 - 2015 Florian Krämer
- * @license MIT
  */
 class StorageTestCase extends TestCase
 {
+    /**
+     * @var string
+     */
+    protected string $tmp;
+
+    /**
+     * @var string
+     */
+    protected string $storageRoot = '';
+
+    /**
+     * @var string
+     */
+    protected string $fixtureRoot = '';
 
     /**
      * Setup test folders and files
@@ -24,16 +47,22 @@ class StorageTestCase extends TestCase
     {
         parent::setUp();
 
+        $ds = DIRECTORY_SEPARATOR;
+        $this->storageRoot = __DIR__ . $ds . '..' . $ds . '..' . $ds . 'tmp' . $ds;
+        $this->fixtureRoot = __DIR__ . $ds . '..' . $ds . 'Fixtures' . $ds;
+
         $this->testPath = TMP;
+        $this->tmp = TMP;
+    }
 
-        StorageAdapterFactory::config('Local', [
-            'adapterOptions' => [$this->testPath],
-            'adapterClass' => 'Local',
-        ]);
+    /**
+     * @param string $path Path
+     * @return string
+     */
+    public function getFixtureFile($path): string
+    {
+        $ds = DIRECTORY_SEPARATOR;
 
-        StorageAdapterFactory::config('Local2', [
-            'adapterOptions' => [$this->testPath],
-            'adapterClass' => 'Local',
-        ]);
+        return __DIR__ . $ds . '..' . $ds . 'Fixtures' . $ds . $path;
     }
 }

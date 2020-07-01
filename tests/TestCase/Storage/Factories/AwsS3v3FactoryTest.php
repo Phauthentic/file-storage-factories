@@ -14,25 +14,25 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Infrastructure\Storage\Factories;
+namespace Phauthentic\Storage\Test\TestCase\Storage\Factories;
 
-use League\Flysystem\Adapter\NullAdapter;
-use League\Flysystem\AdapterInterface;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use Phauthentic\Infrastructure\Storage\Factories\AwsS3v3Factory;
+use Phauthentic\Infrastructure\Storage\Factories\S3v3Factory;
+use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
 
 /**
- * NullFactory
+ * AwsS3FactoryTest
  */
-class NullFactory extends AbstractFactory
+class AwsS3v3FactoryTest extends TestCase
 {
-    protected string $alias = 'null';
-    protected string $className = AwsS3Adapter::class;
-
     /**
-     * @inheritDoc
+     * @return void
      */
-    public function build(array $config): AdapterInterface
+    public function testFactory(): void
     {
-        return new NullAdapter();
+        $factory = new AwsS3v3Factory();
+        $adapter = $factory->build([]);
+        $this->assertInstanceOf(AwsS3Adapter::class, $adapter);
     }
 }

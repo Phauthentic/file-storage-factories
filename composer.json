@@ -25,10 +25,14 @@
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
-    "league/flysystem": "*"
+    "php": "^7.4",
+    "league/flysystem": "^1.0",
+    "psr/container": "^1.0"
   },
   "require-dev": {
+    "instituteweb/composer-scripts": "^1.1",
     "league/flysystem-aws-s3-v3": "^1.0",
+    "league/flysystem-azure": "^1.0",
     "league/flysystem-azure-blob-storage": "^0.1",
     "league/flysystem-gridfs": "^1.0",
     "league/flysystem-memory": "^1.0",
@@ -36,7 +40,8 @@
     "league/flysystem-replicate-adapter": "^1.0",
     "league/flysystem-sftp": "^1.0",
     "league/flysystem-webdav": "^1.0",
-    "league/flysystem-ziparchive": "^1.0"
+    "league/flysystem-ziparchive": "^1.0",
+    "spatie/flysystem-dropbox": "^1.2"
   },
   "autoload": {
     "psr-4": {
@@ -53,9 +58,17 @@
       "post-install-cmd": [
           "php config/composer_post_install.php"
       ],
-      "tests": [
+      "test": [
           "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
           "./bin/phpunit"
+      ],
+      "test-coverage": [
+          "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
+          "./bin/phpunit --coverage-text"
+      ],
+      "test-coverage-html": [
+          "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
+          "./bin/phpunit --coverage-html ./tmp/coverage"
       ],
       "cscheck": [
           "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
@@ -67,10 +80,15 @@
       ],
       "analyze": [
           "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
-          "./bin/phpstan analyse -l 5 -c phpstan.neon ./src\\"
+          "./bin/phpstan analyse ./src -l 5"
       ],
       "phive": [
+          "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
           "php ./config/composer_phive.php"
+      ],
+      "serve": [
+          "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
+          "php -S localhost:8081 -t ./public"
       ]
   },
   "config": {

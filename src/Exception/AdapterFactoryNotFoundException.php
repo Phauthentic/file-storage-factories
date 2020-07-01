@@ -14,26 +14,22 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Infrastructure\Storage\Factories;
-
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Config;
-use League\Flysystem\Memory\MemoryAdapter;
+namespace Phauthentic\Infrastructure\Storage\Exception;
 
 /**
- * Memory
+ * AdapterNotSupportedException
  */
-class MemoryFactory extends AbstractFactory
+class AdapterFactoryNotFoundException extends StorageException
 {
-    protected string $alias = 'memory';
-    protected ?string $package = 'league/flysystem-memory';
-    protected string $className = MemoryAdapter::class;
-
     /**
-     * @inheritDoc
+     * @param string $name Name
+     * @return self
      */
-    public function build(array $config): AdapterInterface
+    public static function fromName(string $name): self
     {
-        return new MemoryAdapter(new Config($config));
+        return new self(sprintf(
+            'Adapter factory `%s` was not found',
+            $name
+        ));
     }
 }

@@ -14,14 +14,14 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Infrastructure\Storage\Exception;
+namespace Phauthentic\Infrastructure\Storage\Factories\Exception;
 
-use RuntimeException;
+use Phauthentic\Infrastructure\Storage\Exception\StorageException;
 
 /**
- * Storage Exception
+ * FactoryException
  */
-class StorageException extends RuntimeException
+class FactoryException extends StorageException
 {
 
 }
