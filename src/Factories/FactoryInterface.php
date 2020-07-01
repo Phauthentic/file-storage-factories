@@ -18,6 +18,9 @@ namespace Phauthentic\Infrastructure\Storage\Factories;
 
 use League\Flysystem\AdapterInterface;
 
+/**
+ * Factory Interface
+ */
 interface FactoryInterface
 {
     public function className(): string;

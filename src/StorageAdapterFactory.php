@@ -18,13 +18,27 @@ namespace Phauthentic\Infrastructure\Storage;
 
 use League\Flysystem\AdapterInterface;
 use Phauthentic\Infrastructure\Storage\Exception\AdapterFactoryNotFoundException;
-use Phauthentic\Infrastructure\Storage\Exception\AdapterNotSupportedException;
+use Psr\Container\ContainerInterface;
 
 /**
  * StorageFactory - Manages and instantiates storage engine adapters.
  */
 class StorageAdapterFactory implements StorageAdapterFactoryInterface
 {
+    /**
+     * @var \Psr\Container\ContainerInterface
+     */
+    protected ?ContainerInterface $container;
+
+    /**
+     * @param \Psr\Container\ContainerInterface|null
+     */
+    public function __construct(
+        ?ContainerInterface $container = null
+    ) {
+        $this->container = $container;
+    }
+
     /**
      * Instantiates Flystem adapters.
      *
@@ -42,6 +56,10 @@ class StorageAdapterFactory implements StorageAdapterFactoryInterface
 
         if (!class_exists($adapterClass)) {
             throw AdapterFactoryNotFoundException::fromName($adapterClass);
+        }
+
+        if ($this->container !== null) {
+            return $this->container->get($adapterClass)->build($options);
         }
 
         return (new $adapterClass())->build($options);

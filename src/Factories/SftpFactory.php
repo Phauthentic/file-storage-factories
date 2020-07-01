@@ -27,12 +27,25 @@ class SftpFactory extends AbstractFactory
     protected string $alias = 'sftp';
     protected ?string $package = 'league/flysystem-sftp';
     protected string $className = SftpAdapter::class;
+    protected array $defaults = [
+        'host' => '',
+        'port' => 22,
+        'username' => '',
+        'password' => '',
+        'privateKey' => '',
+        'passphrase' => '',
+        'root' => '/',
+        'timeout' => 10,
+        'directoryPerm' => 0755
+    ];
 
     /**
      * @inheritDoc
      */
     public function build(array $config): AdapterInterface
     {
+        $config = array_merge($this->defaults, $config);
+
         return new SftpAdapter($config);
     }
 }

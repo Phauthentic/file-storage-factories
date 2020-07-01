@@ -71,7 +71,7 @@ class StorageService implements StorageServiceInterface
     }
 
     /**
-     * @return \Phauthentic\Infrastructure\Storage\AdapterCollectionInterface
+     * @inheritDoc
      */
     public function adapters(): AdapterCollectionInterface
     {
@@ -79,10 +79,7 @@ class StorageService implements StorageServiceInterface
     }
 
     /**
-     * Gets an adapter instance, lazy loads it as needed.
-     *
-     * @param string $name
-     * @return \League\Flysystem\AdapterInterface
+     * @inheritDoc
      */
     public function adapter(string $name): AdapterInterface
     {
@@ -107,7 +104,7 @@ class StorageService implements StorageServiceInterface
      * @param array $options
      * @return \League\Flysystem\AdapterInterface
      */
-    protected function loadAdapter(string $name, string $adapter, array $options): AdapterInterface
+    public function loadAdapter(string $name, string $adapter, array $options): AdapterInterface
     {
         $adapter = $this->adapterFactory->buildStorageAdapter(
             $adapter,
@@ -120,6 +117,8 @@ class StorageService implements StorageServiceInterface
     }
 
     /**
+     * Adds an adapter config
+     *
      * @param string $name
      * @param string $class
      * @param array $options
@@ -138,7 +137,7 @@ class StorageService implements StorageServiceInterface
      * @param array $config Config
      * @return void
      */
-    public function loadAdapterConfigFromArray(array $config): void
+    public function setAdapterConfigFromArray(array $config): void
     {
         foreach ($config as $name => $options) {
             if (!isset($options['class'])) {
@@ -167,13 +166,9 @@ class StorageService implements StorageServiceInterface
     }
 
     /**
-     * @param string $adapter Adapter
-     * @param string $path Path
-     * @param resource $resource
-     * @param \League\Flysystem\Config $config
-     * @return array
+     * @inheritDoc
      */
-    public function storeResource(string $adapter, string $path, $resource, ?Config $config): array
+    public function storeResource(string $adapter, string $path, $resource, ?Config $config = null): array
     {
         $config = $this->makeConfigIfNeeded($config);
         $result = $this->adapter($adapter)->writeStream($path, $resource, $config);
@@ -190,13 +185,9 @@ class StorageService implements StorageServiceInterface
     }
 
     /**
-     * @param string $adapter Adapter
-     * @param string $path Path
-     * @param string $file File
-     * @param \League\Flysystem\Config|null $config Config
-     * @return array
+     * @inheritDoc
      */
-    public function storeFile(string $adapter, string $path, string $file, ?Config $config): array
+    public function storeFile(string $adapter, string $path, string $file, ?Config $config = null): array
     {
         $config = $this->makeConfigIfNeeded($config);
         $result = $this->adapter($adapter)->write($path, file_get_contents($file), $config);

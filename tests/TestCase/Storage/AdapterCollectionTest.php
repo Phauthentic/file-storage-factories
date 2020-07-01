@@ -43,5 +43,8 @@ class AdapterCollectionTest extends StorageTestCase
         $this->assertTrue($collection->has('null'));
         $collection->empty();
         $this->assertFalse($collection->has('null'));
+
+        $result = $collection->getNameToClassmap();
+        $this->assertEquals([], $result);
     }
 }

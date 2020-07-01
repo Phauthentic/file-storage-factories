@@ -28,6 +28,12 @@ class WebDAVFactory extends AbstractFactory
     protected string $alias = 'webdav';
     protected ?string $package = 'league/flysystem-webdav';
     protected string $className = WebDAVAdapter::class;
+    protected array $defaults = [
+        'baseUri' => '',
+        'userName' => '',
+        'password' => '',
+        'proxy' => '',
+    ];
 
     /**
      * @inheritDoc

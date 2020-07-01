@@ -31,6 +31,14 @@ class AdapterCollection implements AdapterCollectionInterface
     protected array $adapters = [];
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->adapters = [];
+    }
+
+    /**
      * @param string $name Name
      * @param \League\Flysystem\AdapterInterface $adapter Adapter
      */
@@ -95,6 +103,10 @@ class AdapterCollection implements AdapterCollectionInterface
      */
     public function getNameToClassmap(): array
     {
+        if (empty($this->adapters)) {
+            return [];
+        }
+
         $map = [];
         foreach ($this->adapters as $name => $object) {
             $map[$name] = get_class($object);

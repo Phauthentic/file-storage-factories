@@ -27,6 +27,18 @@ class FtpFactory extends AbstractFactory
     protected string $alias = 'ftp';
     protected ?string $package = 'league/flysystem';
     protected string $className = Ftp::class;
+    protected array $defaults = [
+        'host' => '',
+        'username' => '',
+        'password' => '',
+        // Optional settings
+        'port' => 21,
+        'root' => '/',
+        'passive' => true,
+        'ssl' => true,
+        'timeout' => 30,
+        'ignorePassiveAddress' => false,
+    ];
 
     /**
      * @inheritDoc
@@ -36,6 +48,8 @@ class FtpFactory extends AbstractFactory
         if (!defined('FTP_BINARY')) {
             define('FTP_BINARY', 'ftp.exe');
         }
+
+        $config = array_merge($this->defaults, $config);
 
         return new Ftp($config);
     }

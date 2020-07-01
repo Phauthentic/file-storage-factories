@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace Phauthentic\Storage\Test\TestCase;
 
 use PHPUnit\Framework\TestCase;
-use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
 
 /**
  * StorageTestCase
@@ -30,6 +29,16 @@ class StorageTestCase extends TestCase
     protected string $tmp;
 
     /**
+     * @var string
+     */
+    protected string $storageRoot = '';
+
+    /**
+     * @var string
+     */
+    protected string $fixtureRoot = '';
+
+    /**
      * Setup test folders and files
      *
      * @return void
@@ -38,7 +47,22 @@ class StorageTestCase extends TestCase
     {
         parent::setUp();
 
+        $ds = DIRECTORY_SEPARATOR;
+        $this->storageRoot = __DIR__ . $ds . '..' . $ds . '..' . $ds . 'tmp' . $ds;
+        $this->fixtureRoot = __DIR__ . $ds . '..' . $ds . 'Fixtures' . $ds;
+
         $this->testPath = TMP;
         $this->tmp = TMP;
+    }
+
+    /**
+     * @param string $path Path
+     * @return string
+     */
+    public function getFixtureFile($path): string
+    {
+        $ds = DIRECTORY_SEPARATOR;
+
+        return __DIR__ . $ds . '..' . $ds . 'Fixtures' . $ds . $path;
     }
 }

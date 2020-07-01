@@ -61,10 +61,10 @@ interface StorageServiceInterface
      * @param string $adapter Adapter config name
      * @param string $path Path where the file is stored
      * @param resource $resource Resource to store
-     * @param \League\Flysystem\Config $config
+     * @param \League\Flysystem\Config|null $config
      * @return array
      */
-    public function storeResource(string $adapter, string $path, $resource, ?Config $config): array;
+    public function storeResource(string $adapter, string $path, $resource, ?Config $config = null): array;
 
     /**
      * Stores a file in a storage backend
@@ -72,9 +72,10 @@ interface StorageServiceInterface
      * @param string $adapter Adapter config name
      * @param string $path Path where the file is stored
      * @param string $file File to store
+     * @param \League\Flysystem\Config|null $config
      * @return array
      */
-    public function storeFile(string $adapter, string $path, string $file, ?Config $config): array;
+    public function storeFile(string $adapter, string $path, string $file, ?Config $config = null): array;
 
     /**
      * Checks if a file exists in a store

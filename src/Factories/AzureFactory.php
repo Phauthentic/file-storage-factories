@@ -40,14 +40,14 @@ class AzureFactory extends AbstractFactory
 
         $endpoint = sprintf(
             $this->endpoint,
-            base64_encode($config['account-name'] ?? 'test'),
-            base64_encode($config['api-key'] ?? 'test')
+            base64_encode($config['accountName'] ?? ''),
+            base64_encode($config['apiKey'] ?? '')
         );
 
-        $blobRestProxy = ServicesBuilder::getInstance()->createBlobService($endpoint);
+        $client = ServicesBuilder::getInstance()->createBlobService($endpoint);
 
         return new AzureBlobStorageAdapter(
-            $blobRestProxy,
+            ServicesBuilder::getInstance()->createBlobService($endpoint),
             $config['container']
         );
     }

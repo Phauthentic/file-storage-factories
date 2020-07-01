@@ -23,7 +23,7 @@ use League\Flysystem\AwsS3v3\AwsS3Adapter;
 /**
  * AwsS3Factory
  */
-class AwsS3Factory extends AbstractFactory
+class AwsS3v3Factory extends AbstractFactory
 {
     protected string $alias = 's3';
     protected ?string $package = 'league/flysystem-aws-s3-v3';

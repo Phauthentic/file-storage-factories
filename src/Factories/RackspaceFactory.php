@@ -29,11 +29,12 @@ class RackspaceFactory extends AbstractFactory
     protected ?string $package = 'league/flysystem-rackspace';
     protected string $className = RackspaceAdapter::class;
     protected array $defaults = [
-        'identityEndpoint' => '',
+        'identityEndpoint' => Rackspace::UK_IDENTITY_ENDPOINT,
         'username' => '',
         'apiKey' => '',
-        'serviceName' => '',
-        'serviceRegion' => '',
+        'objectStoreService' => 'cloudFiles',
+        'serviceRegion' => 'LON',
+        'container' => 'flysystem'
     ];
 
     /**
@@ -45,12 +46,15 @@ class RackspaceFactory extends AbstractFactory
 
         $client = $this->buildClient($config);
         $store = $client->objectStoreService($config['serviceName'], $config['serviceRegion']);
-
-        $container = $store->getContainer('flysystem');
+        $container = $store->getContainer($config['container']);
 
         return new RackspaceAdapter($container);
     }
 
+    /**
+     * @param array $config Config
+     * @return \OpenCloud\Rackspace
+     */
     protected function buildClient(array $config): Rackspace
     {
         return new Rackspace($config['identityEndpoint'], array(

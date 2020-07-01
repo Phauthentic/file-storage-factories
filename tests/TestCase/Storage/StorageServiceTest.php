@@ -18,6 +18,7 @@ namespace Phauthentic\Storage\Test\TestCase\Storage;
 
 use League\Flysystem\Adapter\Local;
 use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
+use Phauthentic\Infrastructure\Storage\StorageAdapterFactoryInterface;
 use Phauthentic\Infrastructure\Storage\StorageService;
 use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
 
@@ -37,11 +38,11 @@ class StorageServiceTest extends TestCase
 
         $this->assertFalse($service->adapters()->has('local'));
 
-        $service->loadAdapterConfigFromArray([
+        $service->setAdapterConfigFromArray([
             'local' => [
                 'class' => 'Local',
                 'options' => [
-                    $this->tmp
+                    'root' => $this->storageRoot
                 ]
             ]
         ]);
@@ -49,5 +50,27 @@ class StorageServiceTest extends TestCase
         $adapter = $service->adapter('local');
         $this->assertTrue($service->adapters()->has('local'));
         $this->assertInstanceOf(Local::class, $adapter);
+
+        $result = $service->adapterFactory();
+        $this->assertInstanceOf(StorageAdapterFactoryInterface::class, $result);
+
+        $this->assertFalse($service->fileExists('local', 'doesnot'));
+
+        $result = $service->storeFile(
+            'local',
+            '/horse/photo.jpg',
+            $this->getFixtureFile('titus.jpg')
+        );
+        $this->assertIsArray($result);
+
+        $result = $service->storeResource(
+            'local',
+            '/horse/photo.jpg',
+            fopen($this->getFixtureFile('titus.jpg'), 'rb')
+        );
+        $this->assertIsArray($result);
+
+        $result = $service->removeFile('local', '/horse/photo.jpg');
+        $this->assertTrue($result);
     }
 }

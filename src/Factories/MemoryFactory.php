@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace Phauthentic\Infrastructure\Storage\Factories;
 
 use League\Flysystem\AdapterInterface;
+use League\Flysystem\Config;
 use League\Flysystem\Memory\MemoryAdapter;
 
 /**
@@ -33,6 +34,6 @@ class MemoryFactory extends AbstractFactory
      */
     public function build(array $config): AdapterInterface
     {
-        return new MemoryAdapter();
+        return new MemoryAdapter(new Config($config));
     }
 }
