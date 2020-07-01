@@ -1,5 +1,7 @@
 # Factories
 
+## Introduction
+
 In the underlying Flysystem implementation some adapters are more or less complex to build. Sometimes you have to compose multiple objects and feed them to an adapter. The factories take this burden away from you and provide you the same interface for all adapters. Just their config array options differ.
 
 The factories will always return new instances. Use the `StorageService`, the `AdapterCollection` or your own way of keeping a list of instances.
@@ -86,7 +88,7 @@ https://github.com/thephpleague/flysystem-replicate-adapter
 
 **Options**:
  * **source** A source adapter instance
- * **replica** The adapter to replicate to
+ * **target** The adapter to replicate to
 
 ### SFTP
 

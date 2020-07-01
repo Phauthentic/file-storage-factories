@@ -6,7 +6,8 @@
 
 ## Documentation
 
-Please see the [/docs](/docs/index.md) folder in this repository for the documentation.
+ * [Installation](Installation.md)
+ * [Factories](Factories.md)
 
 ## Support
 

@@ -14,22 +14,24 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Infrastructure\Storage\Factories\Exception;
+namespace Phauthentic\Storage\Test\TestCase\Storage\Factories;
+
+use Phauthentic\Infrastructure\Storage\Factories\DropboxFactory;
+use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
+use Spatie\FlysystemDropbox\DropboxAdapter;
 
 /**
- * FactoryNotFoundException
+ * DropboxFactoryTest
  */
-class FactoryNotFoundException extends FactoryException
+class DropboxFactoryTest extends TestCase
 {
     /**
-     * @param string $name Name
-     * @return self
+     * @return void
      */
-    public static function withName(string $name): self
+    public function testFactory(): void
     {
-        return new self(sprintf(
-            'No factory found for `%s`',
-            $name
-        ));
+        $factory = new DropboxFactory();
+        $adapter = $factory->build([]);
+        $this->assertInstanceOf(DropboxAdapter::class, $adapter);
     }
 }

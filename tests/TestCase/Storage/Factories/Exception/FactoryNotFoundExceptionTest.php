@@ -14,22 +14,22 @@
 
 declare(strict_types=1);
 
-namespace Phauthentic\Infrastructure\Storage\Factories\Exception;
+namespace Phauthentic\Storage\Test\TestCase\Storage\Factories\Exception;
+
+use Phauthentic\Infrastructure\Storage\Factories\Exception\FactoryNotFoundException;
+use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
 
 /**
- * FactoryNotFoundException
+ * AwsS3FactoryTest
  */
-class FactoryNotFoundException extends FactoryException
+class FactoryNotFoundExceptionTest extends TestCase
 {
     /**
-     * @param string $name Name
-     * @return self
+     * @return void
      */
-    public static function withName(string $name): self
+    public function testFactory(): void
     {
-        return new self(sprintf(
-            'No factory found for `%s`',
-            $name
-        ));
+        $exception = FactoryNotFoundException::withName('foobar');
+        $this->assertEquals('No factory found for `foobar`', $exception->getMessage());
     }
 }

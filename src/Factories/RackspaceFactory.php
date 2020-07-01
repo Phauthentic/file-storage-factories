@@ -34,7 +34,8 @@ class RackspaceFactory extends AbstractFactory
         'apiKey' => '',
         'objectStoreService' => 'cloudFiles',
         'serviceRegion' => 'LON',
-        'container' => 'flysystem'
+        'container' => 'flysystem',
+        'serviceName' => 'cloudFiles'
     ];
 
     /**

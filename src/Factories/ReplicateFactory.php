@@ -42,15 +42,15 @@ class ReplicateFactory extends AbstractFactory
             );
         }
 
-        if (!isset($config['source']) || !isset($config['replica'])) {
+        if (!isset($config['source']) || !isset($config['target'])) {
             throw new FactoryException(
-                'You must configure `source` and `replica`'
+                'You must configure `source` and `target`'
             );
         }
 
         return new ReplicateAdapter(
             $config['source'],
-            $config['replica']
+            $config['target']
         );
     }
 }
