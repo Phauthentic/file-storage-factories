@@ -20,7 +20,6 @@ use League\Flysystem\Adapter\Local;
 use Phauthentic\Infrastructure\Storage\Exception\AdapterFactoryNotFoundException;
 use Phauthentic\Infrastructure\Storage\StorageAdapterFactory;
 use Phauthentic\Storage\Test\TestCase\StorageTestCase as TestCase;
-use RuntimeException;
 
 /**
  * StorageAdapterFactoryTest
