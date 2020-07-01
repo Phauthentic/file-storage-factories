@@ -44,8 +44,6 @@ class AzureFactory extends AbstractFactory
             base64_encode($config['apiKey'] ?? '')
         );
 
-        $client = ServicesBuilder::getInstance()->createBlobService($endpoint);
-
         return new AzureBlobStorageAdapter(
             ServicesBuilder::getInstance()->createBlobService($endpoint),
             $config['container']
