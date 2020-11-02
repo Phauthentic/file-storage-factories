@@ -32,7 +32,7 @@ class LocalFactory extends AbstractFactory
     {
         $this->availabilityCheck();
 
-        $config = array_merge(['root' => '/'], $config);
+        $config += ['root' => '/'];
 
         return new Local($config['root']);
     }
