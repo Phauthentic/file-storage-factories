@@ -43,7 +43,7 @@ class RackspaceFactory extends AbstractFactory
      */
     public function build(array $config): AdapterInterface
     {
-        $config = array_merge($this->defaults, $config);
+        $config += $this->defaults;
 
         $client = $this->buildClient($config);
         $store = $client->objectStoreService($config['serviceName'], $config['serviceRegion']);

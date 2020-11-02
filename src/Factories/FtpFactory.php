@@ -49,7 +49,7 @@ class FtpFactory extends AbstractFactory
             define('FTP_BINARY', 'ftp.exe');
         }
 
-        $config = array_merge($this->defaults, $config);
+        $config += $this->defaults;
 
         return new Ftp($config);
     }

@@ -14,7 +14,7 @@
     "sftp",
     "file"
   ],
-  "homepage": "http://github.com/burzum/storage-factory",
+  "homepage": "https://github.com/burzum/storage-factory",
   "license": "MIT",
   "authors": [
     {
@@ -45,13 +45,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Phauthentic\\Infrastructure\\Storage\\": "src"
+      "Phauthentic\\Infrastructure\\Storage\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Phauthentic\\Storage\\Test\\": "tests",
-      "Phauthentic\\Storage\\Test\\Fixture\\": "tests\\Fixture"
+      "Phauthentic\\Storage\\Test\\": "tests/"
     }
   },
   "scripts": {
