@@ -50,6 +50,21 @@ class StorageAdapterFactory implements StorageAdapterFactoryInterface
         string $adapterClass,
         array $options
     ): AdapterInterface {
+        $adapterClass = $this->checkAndResolveAdapterClass($adapterClass);
+
+        if ($this->container !== null) {
+            return $this->container->get($adapterClass)->build($options);
+        }
+
+        return (new $adapterClass())->build($options);
+    }
+
+    /**
+     * @param string $adapterClass Adapter Class name or string
+     * @return string
+     */
+    protected function checkAndResolveAdapterClass(string $adapterClass): string
+    {
         if (!class_exists($adapterClass)) {
             $adapterClass = '\Phauthentic\Infrastructure\Storage\Factories\\' . $adapterClass . 'Factory';
         }
@@ -58,10 +73,6 @@ class StorageAdapterFactory implements StorageAdapterFactoryInterface
             throw AdapterFactoryNotFoundException::fromName($adapterClass);
         }
 
-        if ($this->container !== null) {
-            return $this->container->get($adapterClass)->build($options);
-        }
-
-        return (new $adapterClass())->build($options);
+        return $adapterClass;
     }
 }
