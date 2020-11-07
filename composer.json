@@ -31,7 +31,7 @@
   },
   "require-dev": {
     "instituteweb/composer-scripts": "^1.1",
-    "league/flysystem-aws-s3-v3": "^1.0",
+    "league/flysystem-aws-s3-v3": "^1.0.29",
     "league/flysystem-azure": "^1.0",
     "league/flysystem-azure-blob-storage": "^1.0",
     "league/flysystem-gridfs": "^1.0",
