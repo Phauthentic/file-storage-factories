@@ -36,7 +36,7 @@ class StorageAdapterFactoryTest extends TestCase
         $factory = new StorageAdapterFactory();
 
         $result = $factory->buildStorageAdapter('Local', [
-            $this->testPath
+            'root' => $this->testPath
         ]);
 
         $this->assertInstanceOf(Local::class, $result);

@@ -21,7 +21,12 @@ use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter;
 use MicrosoftAzure\Storage\Common\ServicesBuilder;
 
 /**
- * AzureFactory
+ * Azure Factory
+ *
+ * Be aware that this adapter seems to have some problems!
+ *
+ * @link https://github.com/thephpleague/flysystem-azure/issues/22
+ * @link https://github.com/thephpleague/flysystem-azure/issues/15
  */
 class AzureFactory extends AbstractFactory
 {
@@ -44,10 +49,11 @@ class AzureFactory extends AbstractFactory
             base64_encode($config['apiKey'] ?? '')
         );
 
-
+        /** @phpstan-ignore-next-line */
         return new AzureBlobStorageAdapter(
             ServicesBuilder::getInstance()->createBlobService($endpoint),
-            $config['container']
+            $config['container'],
+            $config['prefix'] ?? null
         );
     }
 }

@@ -33,7 +33,7 @@
     "instituteweb/composer-scripts": "^1.1",
     "league/flysystem-aws-s3-v3": "^1.0",
     "league/flysystem-azure": "^1.0",
-    "league/flysystem-azure-blob-storage": "^0.1",
+    "league/flysystem-azure-blob-storage": "^1.0",
     "league/flysystem-gridfs": "^1.0",
     "league/flysystem-memory": "^1.0",
     "league/flysystem-rackspace": "^1.0",
@@ -41,8 +41,8 @@
     "league/flysystem-sftp": "^1.0",
     "league/flysystem-webdav": "^1.0",
     "league/flysystem-ziparchive": "^1.0",
-    "microsoft/windowsazure": "~0.4.2",
-    "spatie/flysystem-dropbox": "^1.2"
+    "spatie/flysystem-dropbox": "^1.2",
+    "microsoft/windowsazure": "0.4.2"
   },
   "autoload": {
     "psr-4": {

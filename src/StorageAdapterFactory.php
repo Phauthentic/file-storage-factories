@@ -31,7 +31,7 @@ class StorageAdapterFactory implements StorageAdapterFactoryInterface
     protected ?ContainerInterface $container;
 
     /**
-     * @param \Psr\Container\ContainerInterface|null
+     * @param \Psr\Container\ContainerInterface|null $container Container
      */
     public function __construct(
         ?ContainerInterface $container = null

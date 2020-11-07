@@ -34,6 +34,6 @@ class MemoryFactory extends AbstractFactory
      */
     public function build(array $config): AdapterInterface
     {
-        return new MemoryAdapter(new Config($config));
+        return new MemoryAdapter();
     }
 }
