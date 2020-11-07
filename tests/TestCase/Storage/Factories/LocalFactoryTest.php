@@ -31,7 +31,9 @@ class LocalFactoryTest extends TestCase
     public function testFactory(): void
     {
         $factory = new LocalFactory();
-        $adapter = $factory->build([]);
+        $adapter = $factory->build([
+            'root' => sys_get_temp_dir()
+        ]);
         $this->assertInstanceOf(Local::class, $adapter);
     }
 }

@@ -46,8 +46,10 @@ class AwsS3v3Factory extends AbstractFactory
         $this->availabilityCheck();
         $config = array_merge($this->defaults, $config);
 
-        return new AwsS3Adapter(S3Client::factory(
-            $config['client']),
+        return new AwsS3Adapter(
+            S3Client::factory(
+                $config['client']
+            ),
             $config['bucket'],
             $config['prefix'],
             $config
