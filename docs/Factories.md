@@ -10,7 +10,9 @@ For now the underlying Flysystem implementation is set to ^1.0 because it simply
 
 ## Factories
 
-If there are problems with the factories please create an issue ticket on Github and check the documentation of the adapter you're trying to use.
+**If there are problems with the factories please create an issue ticket on Github and check the documentation of the adapter you're trying to use.**
+
+Some SDKs like the Amazon and Azure SDK are changing more or less often and the Flysystem adapters can't keep up with them either. We recommend you to implement your own factory for it in this case if you need a quick solution.
 
 We are simply not able due to limited resources to monitor *all* the adapters and the libs they use for changes. So please report issues and create pull requests. :)
 
