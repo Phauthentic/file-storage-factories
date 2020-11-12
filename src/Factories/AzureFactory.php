@@ -19,6 +19,9 @@ namespace Phauthentic\Infrastructure\Storage\Factories;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter;
 use MicrosoftAzure\Storage\Common\ServicesBuilder;
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+use Phauthentic\Infrastructure\Storage\Factories\Exception\FactoryConfigException;
+use Phauthentic\Infrastructure\Storage\Factories\Exception\FactoryException;
 
 /**
  * Azure Factory
@@ -42,18 +45,27 @@ class AzureFactory extends AbstractFactory
     public function build($config): AdapterInterface
     {
         $this->availabilityCheck();
+        $this->checkConfig($config);
 
         $endpoint = sprintf(
             $this->endpoint,
-            base64_encode($config['accountName'] ?? ''),
-            base64_encode($config['apiKey'] ?? '')
+            base64_encode($config['accountName']),
+            base64_encode($config['apiKey'])
         );
 
-        /** @phpstan-ignore-next-line */
-        return new AzureBlobStorageAdapter(
-            ServicesBuilder::getInstance()->createBlobService($endpoint),
-            $config['container'],
-            $config['prefix'] ?? null
-        );
+        $client = BlobRestProxy::createBlobService($endpoint);
+
+        return new AzureBlobStorageAdapter($client, $config['accountName']);
+    }
+
+    protected function checkConfig(array $config): void
+    {
+        if (empty($config['accountName'])) {
+            throw FactoryConfigException::withMissingKey('apiKey', $this);
+        }
+
+        if (empty($config['apiKey'])) {
+            throw FactoryConfigException::withMissingKey('apiKey', $this);
+        }
     }
 }

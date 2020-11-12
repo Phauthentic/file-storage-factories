@@ -30,10 +30,12 @@ class AzureFactoryTest extends TestCase
      */
     public function testFactory(): void
     {
-        /*
         $factory = new AzureFactory();
-        $adapter = $factory->build([]);
+        $adapter = $factory->build([
+            'accountName' => 'test',
+            'apiKey' => 'test'
+        ]);
+
         $this->assertInstanceOf(AzureBlobStorageAdapter::class, $adapter);
-        */
     }
 }
