@@ -39,8 +39,7 @@ class ZipArchiveFactory extends AbstractFactory
             'archive' => null,
             'prefix' => null,
         ];
-
-        $config = array_merge($defaults, $config);
+        $config += $defaults;
 
         return new ZipArchiveAdapter($config['location'], $config['archive'], $config['prefix']);
     }
