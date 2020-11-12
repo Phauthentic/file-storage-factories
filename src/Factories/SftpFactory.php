@@ -44,7 +44,7 @@ class SftpFactory extends AbstractFactory
      */
     public function build(array $config): AdapterInterface
     {
-        $config = array_merge($this->defaults, $config);
+        $config += $this->defaults;
 
         return new SftpAdapter($config);
     }

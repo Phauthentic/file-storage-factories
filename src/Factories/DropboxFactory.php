@@ -37,7 +37,7 @@ class DropboxFactory extends AbstractFactory
      */
     public function build(array $config): AdapterInterface
     {
-        $config = array_merge($this->defaults, $config);
+        $config += $this->defaults;
         $client = new Client($config['authToken']);
 
         return new DropboxAdapter($client);
