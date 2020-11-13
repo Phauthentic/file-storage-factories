@@ -26,7 +26,6 @@ build_failure_conditions:
 
 build:
     services:
-      #mariadb: 10.1.40
     environment:
         hosts:
             localhost: '127.0.0.1'
@@ -36,6 +35,8 @@ build:
             version: '7.4'
             ini:
                 phar.readonly: 'Off'
+            pecl_extensions:
+              - zip
 
     nodes:
         tests-php74:
